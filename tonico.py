@@ -20,6 +20,7 @@ if __name__ == '__main__':  # start here when run as application
 	argparser.add_argument('src_file_paths', nargs=1, help='Source file', type=Path, metavar='FILE')
 	args = argparser.parse_args()
 	encodings = args.encodings.split(',') if args.encodings else ['ascii', 'cp1252', 'utf-8']
+	escapes = ['\\a', '\\b', '\\t', '\\n', '\\v', '\\f', '\\r']
 	ofh = args.out.open('w') if args.out else None
 	int_array = args.src_file_paths[0].read_bytes()
 	line = f'hex\t{"\t".join(encodings)}'
@@ -27,9 +28,17 @@ if __name__ == '__main__':  # start here when run as application
 	if ofh:
 		print(line, file=ofh)
 	for i in range(0, len(int_array)):
-		line = f'{int_array[i]:X}'
+		line = f'{int_array[i]:02X}'
 		for enc in encodings:
-			line += f'\t{bytes(int_array[i:i+8]).decode(enc, errors='replace' )[0]}'
+			char = f'{bytes(int_array[i:i+8]).decode(enc, errors='replace' )[0]}'
+			if char != '�' and char.isprintable():
+				line += f'\t{char}'
+			else:
+				no = ord(char)
+				if no >= 7 and no <= 13:
+					line += f'\t{escapes[no-7]}'
+				else:
+					line += '\t.'
 		print(line)
 		if ofh:
 			print(line, file=ofh)
