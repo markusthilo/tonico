@@ -15,6 +15,6 @@ python tonico.py [-h] [-e STRING] [-o FILE] FILE
 
 ### Example:
 ```
-python tonico -o output.csv input.raw
+python tonico.py -o output.csv input.raw
 ```
 ### GPL-3
