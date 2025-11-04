@@ -14,7 +14,7 @@ from pathlib import Path
 if __name__ == '__main__':  # start here when run as application
 	argparser = ArgumentParser(description=__description__)
 	argparser.add_argument('-e', '--encodings', type=str, metavar='STRING',
-		help='Encodings to try (e.g. ascii,cp1252,utf-8 - comma, no spaces, this is the default is "ascii,cp1252,utf-8")')
+		help='Encodings to try (e.g. ascii,cp1252,utf-8 - comma, no spaces, the default is "ascii,cp1252,utf-8")')
 	argparser.add_argument('-o', '--out', type=Path, metavar='FILE',
 		help='File to store output as CSV/TSV')
 	argparser.add_argument('src_file_paths', nargs=1, help='Source file', type=Path, metavar='FILE')
